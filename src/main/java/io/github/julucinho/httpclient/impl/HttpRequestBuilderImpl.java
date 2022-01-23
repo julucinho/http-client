@@ -1,7 +1,6 @@
 package io.github.julucinho.httpclient.impl;
 
 
-import com.julucinho.httpclient.*;
 import io.github.julucinho.httpclient.commons.RetriersByExceptionTypeFactory;
 import io.github.julucinho.httpclient.*;
 
