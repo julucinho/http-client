@@ -1,8 +1,9 @@
 package io.github.julucinho.httpclient.utils;
 
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@UtilityClass
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ThreadIdRetrievementUtil {
 
     public static String retrieveThreadId(){

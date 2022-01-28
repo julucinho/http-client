@@ -1,6 +1,6 @@
 package io.github.julucinho.httpclient;
 
-public interface HttpRequestBuilder extends HttpRequestBuilderForHandlers, HttpRequestBuilderForRetrying {
+public interface HttpRequestBuilder extends HttpRequestBuilderForHandlers, HttpRequestBuilderForRetrying{
 
     HttpRequestBuilder andAddHeaderOf(String key, String value);
     HttpRequestBuilder andAddHeadersFactory(HttpRequestHeaderFactory httpRequestHeaderFactory);

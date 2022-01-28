@@ -14,16 +14,15 @@ import java.util.Map;
 public abstract class AbstractHttpRequestModel implements HttpRequestModel {
 
     protected String uri;
-    protected List<HttpRequestPathVariable> pathVariables = new ArrayList<>();
-    protected List<HttpRequestQueryParameter> queryParameters = new ArrayList<>();
-    protected Map<String, String> headers = new HashMap<>();
+    protected final List<HttpRequestPathVariable> pathVariables = new ArrayList<>();
+    protected final List<HttpRequestQueryParameter> queryParameters = new ArrayList<>();
+    protected final Map<String, String> headers = new HashMap<>();
     protected BodyPublisher body;
     protected HttpRequestMethod method;
-    protected Map<Integer, HttpResponseHandler> responseHandlersByStatusCode = new HashMap<>();
     protected HttpResponseHandler genericResponseHandler;
-    protected Map<Class<? extends Exception>, HttpResponseHandler> responseHandlersByExceptionType = new HashMap<>();
-    protected Map<Integer, RetryCounter> retryCountersByStatusCode = new HashMap<>();
-    protected Map<Class<? extends Exception>, RetryCounter> retryCountersByExceptionType = new HashMap<>();
-
+    protected final Map<Integer, HttpResponseHandler> responseHandlersByStatusCode = new HashMap<>();
+    protected final Map<Class<? extends Exception>, HttpResponseHandler> responseHandlersByExceptionType = new HashMap<>();
+    protected final Map<Integer, RetryCounter> retryCountersByStatusCode = new HashMap<>();
+    protected final Map<Class<? extends Exception>, RetryCounter> retryCountersByExceptionType = new HashMap<>();
 
 }

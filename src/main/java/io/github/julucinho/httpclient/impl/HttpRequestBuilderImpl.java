@@ -1,8 +1,8 @@
 package io.github.julucinho.httpclient.impl;
 
 
-import io.github.julucinho.httpclient.commons.RetriersByExceptionTypeFactory;
 import io.github.julucinho.httpclient.*;
+import io.github.julucinho.httpclient.commons.RetriersByExceptionTypeFactory;
 
 public class HttpRequestBuilderImpl extends AbstractHttpRequestBuilder {
 
