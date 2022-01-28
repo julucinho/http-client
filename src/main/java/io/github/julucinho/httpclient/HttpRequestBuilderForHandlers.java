@@ -6,9 +6,9 @@ import io.github.julucinho.httpclient.impl.HttpResponseHandlersByStatusCodeFacto
 public interface HttpRequestBuilderForHandlers {
 
     HttpRequestBuilder andAddResponseHandlerByHttpStatusCode(Integer statusCode, HttpResponseHandler httpResponseHandler);
-    HttpRequestBuilder andAddResponseHandlersByHttpStatusCode(HttpResponseHandlersByStatusCodeFactory httpResponseHandlersByStatusCodeFactory);
+    HttpRequestBuilder andAddResponseHandlersByHttpStatusCodeFactory(HttpResponseHandlersByStatusCodeFactory httpResponseHandlersByStatusCodeFactory);
     HttpRequestBuilder andAddResponseHandlerForAnyNotSuccessfulResponse(HttpResponseHandler httpResponseHandler);
-    HttpRequestBuilder andAddResponseHandlersByExceptionType(HttpResponseHandlersByExceptionTypeFactory httpResponseHandlersByExceptionTypeFactory);
+    HttpRequestBuilder andAddResponseHandlersByExceptionTypeFactory(HttpResponseHandlersByExceptionTypeFactory httpResponseHandlersByExceptionTypeFactory);
     HttpRequestBuilder andAddResponseHandlerByExceptionType(Class<? extends Exception> exceptionType, HttpResponseHandler httpResponseHandler);
 
 }

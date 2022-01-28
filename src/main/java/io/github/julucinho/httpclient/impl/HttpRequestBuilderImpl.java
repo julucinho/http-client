@@ -50,7 +50,7 @@ public class HttpRequestBuilderImpl extends AbstractHttpRequestBuilder {
     }
 
     @Override
-    public HttpRequestBuilder andAddResponseHandlersByHttpStatusCode(HttpResponseHandlersByStatusCodeFactory httpResponseHandlersByStatusCodeFactory) {
+    public HttpRequestBuilder andAddResponseHandlersByHttpStatusCodeFactory(HttpResponseHandlersByStatusCodeFactory httpResponseHandlersByStatusCodeFactory) {
         httpResponseHandlersByStatusCodeFactory.makeHandlers().forEach(this.httpRequest.responseHandlersByStatusCode::put);
         return this;
     }
@@ -62,14 +62,14 @@ public class HttpRequestBuilderImpl extends AbstractHttpRequestBuilder {
     }
 
     @Override
-    public HttpRequestBuilder andAddResponseHandlersByExceptionType(HttpResponseHandlersByExceptionTypeFactory httpResponseHandlersByExceptionTypeFactory) {
-        httpResponseHandlersByExceptionTypeFactory.makeHandlers().forEach(this.httpRequest.responseHandlersByExceptionType::put);
+    public HttpRequestBuilder andAddResponseHandlerByExceptionType(Class<? extends Exception> exceptionType, HttpResponseHandler httpResponseHandler) {
+        this.httpRequest.responseHandlersByExceptionType.put(exceptionType, httpResponseHandler);
         return this;
     }
 
     @Override
-    public HttpRequestBuilder andAddResponseHandlerByExceptionType(Class<? extends Exception> exceptionType, HttpResponseHandler httpResponseHandler) {
-        this.httpRequest.responseHandlersByExceptionType.put(exceptionType, httpResponseHandler);
+    public HttpRequestBuilder andAddResponseHandlersByExceptionTypeFactory(HttpResponseHandlersByExceptionTypeFactory httpResponseHandlersByExceptionTypeFactory) {
+        httpResponseHandlersByExceptionTypeFactory.makeHandlers().forEach(this.httpRequest.responseHandlersByExceptionType::put);
         return this;
     }
 
@@ -80,20 +80,20 @@ public class HttpRequestBuilderImpl extends AbstractHttpRequestBuilder {
     }
 
     @Override
-    public HttpRequestBuilder andAddRetriersByHttpStatusCode(RetriersByStatusCodeFactory retriersByStatusCodeFactory) {
+    public HttpRequestBuilder andAddRetriersByHttpStatusCodeFactory(RetriersByStatusCodeFactory retriersByStatusCodeFactory) {
         retriersByStatusCodeFactory.makeRetriers().forEach((statusCode, retrierModel) -> this.httpRequest.retryCountersByStatusCode.put(statusCode, RetryCounterImpl.of(retrierModel)));
-        return this;
-    }
-
-    @Override
-    public HttpRequestBuilder andAddRetriersByExceptionType(RetriersByExceptionTypeFactory retriersByExceptionTypeFactory) {
-        retriersByExceptionTypeFactory.makeRetriers().forEach((exceptionType, retrierModel) -> this.httpRequest.retryCountersByExceptionType.put(exceptionType, RetryCounterImpl.of(retrierModel)));
         return this;
     }
 
     @Override
     public HttpRequestBuilder andAddRetrierByExceptionType(Class<? extends Exception> exceptionType, RetrierModel retrierModel) {
         this.httpRequest.retryCountersByExceptionType.put(exceptionType, RetryCounterImpl.of(retrierModel));
+        return this;
+    }
+
+    @Override
+    public HttpRequestBuilder andAddRetriersByExceptionTypeFactory(RetriersByExceptionTypeFactory retriersByExceptionTypeFactory) {
+        retriersByExceptionTypeFactory.makeRetriers().forEach((exceptionType, retrierModel) -> this.httpRequest.retryCountersByExceptionType.put(exceptionType, RetryCounterImpl.of(retrierModel)));
         return this;
     }
 }
