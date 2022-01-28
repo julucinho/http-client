@@ -28,7 +28,7 @@ public class HttpResponseImpl extends AbstractHttpResponse{
     public <T> T getBodyAs(Class<T> bodyType) {
         try{
             return ObjectMapperFactory.createNewObjectMapper().readValue(this.unwrappedHttpResponse.body(), bodyType);
-        } catch (JsonProcessingException exception){
+        } catch (Exception exception){
             throw new JsonProcessingRuntimeException(exception.getMessage());
         }
     }
