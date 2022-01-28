@@ -1,8 +1,6 @@
 package io.github.julucinho.httpclient.impl;
 
-import io.github.julucinho.httpclient.HttpRequestHeaderFactory;
-import io.github.julucinho.httpclient.HttpResponseHandler;
-import io.github.julucinho.httpclient.RetrierModel;
+import io.github.julucinho.httpclient.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -280,5 +278,82 @@ class HttpRequestBuilderImplTest {
         Assertions.assertEquals(builder, returnedBuilder);
     }
 
+    private static class HttpResponseHandlersByExceptionTypeFactoryForTestingMatters implements HttpResponseHandlersByExceptionTypeFactory {
+
+        static final Class<? extends Exception> KEY_1 = RuntimeException.class;
+        static final Class<? extends Exception> KEY_2 = InterruptedException.class;
+        static final Class<? extends Exception> KEY_3 = Exception.class;
+
+
+        @Override
+        public Map<Class<? extends Exception>, HttpResponseHandler> makeHandlers() {
+            var handlers = new HashMap<Class<? extends Exception>, HttpResponseHandler>();
+            handlers.put(KEY_1, response -> System.out.println("Hello, RuntimeException"));
+            handlers.put(KEY_2, response -> System.out.println("Hello, InterruptedException"));
+            handlers.put(KEY_3, response -> System.out.println("Hello, Exception"));
+            return handlers;
+        }
+    }
+
+    @Test
+    @DisplayName("Should add http response handlers by exception type factory correctly")
+    void shouldAddHttpResponseHandlersByExceptionTypeFactoryCorrectly(){
+        var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
+        var builder = HttpRequestBuilderImpl.of(request);
+        builder.andAddResponseHandlersByExceptionTypeFactory(new HttpResponseHandlersByExceptionTypeFactoryForTestingMatters());
+        Arrays.asList(HttpResponseHandlersByExceptionTypeFactoryForTestingMatters.KEY_1,
+                HttpResponseHandlersByExceptionTypeFactoryForTestingMatters.KEY_2,
+                HttpResponseHandlersByExceptionTypeFactoryForTestingMatters.KEY_3)
+                .forEach(key -> Assertions.assertNotNull(request.responseHandlersByExceptionType.get(key)));
+    }
+
+    @Test
+    @DisplayName("Should return builder instance when finishing method of adding http response handlers by exception type factory")
+    void shouldReturnBuilderInstanceWhenFinishingMethodOfAddingHttpResponseHandlersByExceptionTypeFactory(){
+        var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
+        var builder = HttpRequestBuilderImpl.of(request);
+        var returnedBuilder = builder.andAddResponseHandlersByExceptionTypeFactory(new HttpResponseHandlersByExceptionTypeFactoryForTestingMatters());
+        Assertions.assertNotNull(returnedBuilder);
+        Assertions.assertEquals(builder, returnedBuilder);
+    }
+
+    private static class RetriersByStatusCodeFactoryForTestingMatters implements RetriersByStatusCodeFactory {
+
+        static final Integer KEY_1 = 400;
+        static final Integer KEY_2 = 401;
+        static final Integer KEY_3 = 403;
+
+
+        @Override
+        public Map<Integer, RetrierModel> makeRetriers() {
+            var retriers = new HashMap<Integer, RetrierModel>();
+            retriers.put(KEY_1, RetrierModel.withLimitOf(4));
+            retriers.put(KEY_2, RetrierModel.withLimitOf(8));
+            retriers.put(KEY_3, RetrierModel.withLimitOf(16));
+            return retriers;
+        }
+    }
+
+    @Test
+    @DisplayName("Should add retriers by status code factory correctly")
+    void shouldAddRetriersByStatusCodeFactoryCorrectly(){
+        var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
+        var builder = HttpRequestBuilderImpl.of(request);
+        builder.andAddRetriersByHttpStatusCodeFactory(new RetriersByStatusCodeFactoryForTestingMatters());
+        Arrays.asList(RetriersByStatusCodeFactoryForTestingMatters.KEY_1,
+                RetriersByStatusCodeFactoryForTestingMatters.KEY_2,
+                RetriersByStatusCodeFactoryForTestingMatters.KEY_3)
+                .forEach(key -> Assertions.assertNotNull(request.retryCountersByStatusCode.get(key)));
+    }
+
+    @Test
+    @DisplayName("Should return builder instance when finishing method of adding retriers by status code factory")
+    void shouldReturnBuilderInstanceWhenFinishingMethodOfAddingRetriersByStatusCodeFactory(){
+        var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
+        var builder = HttpRequestBuilderImpl.of(request);
+        var returnedBuilder = builder.andAddRetriersByHttpStatusCodeFactory(new RetriersByStatusCodeFactoryForTestingMatters());
+        Assertions.assertNotNull(returnedBuilder);
+        Assertions.assertEquals(builder, returnedBuilder);
+    }
 
 }
