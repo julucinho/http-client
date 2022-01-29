@@ -21,7 +21,7 @@ class HttpRequestExecutionManager {
     protected HttpResponse run() {
         try {
             var response = this.httpRequest.method.execute(this.httpRequest);
-            response.ifNeedsHandling(HttpResponseStatusCodeChecker.of(this.httpRequest)::checkOnResponse);
+            response.ifNeedsHandling(HttpResponseStatusCodeChecker.of(this.httpRequest)::checkOutHandlersFor);
             return response;
         } catch (RetryNeededOnHttpStatusCodeException | RetryNeededOnExceptionThrownException exception) {
             HttpRequestSendingManagerLogger.logRetryMessage(exception.getMessage());

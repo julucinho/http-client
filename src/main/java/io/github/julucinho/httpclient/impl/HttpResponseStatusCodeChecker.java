@@ -19,7 +19,7 @@ public class HttpResponseStatusCodeChecker {
         return new HttpResponseStatusCodeChecker(httpRequest);
     }
 
-    public void checkOnResponse(HttpResponse response) throws RetryNeededOnHttpStatusCodeException {
+    public void checkOutHandlersFor(HttpResponse response) throws RetryNeededOnHttpStatusCodeException {
         this.httpResponse = response;
         var statusCodeReceived = response.getStatusCode();
         var retryCounterForStatusCodeReceived = ofNullable(this.httpRequest.retryCountersByStatusCode.get(statusCodeReceived));
