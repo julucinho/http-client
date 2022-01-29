@@ -3,7 +3,6 @@ package io.github.julucinho.httpclient.impl;
 import io.github.julucinho.httpclient.HttpResponse;
 import io.github.julucinho.httpclient.impl.exceptions.RetryNeededOnExceptionThrownException;
 import io.github.julucinho.httpclient.impl.exceptions.RetryNeededOnHttpStatusCodeException;
-import io.github.julucinho.httpclient.impl.loggers.HttpRequestSendingManagerLogger;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +23,6 @@ class HttpRequestExecutionManager {
             response.ifNeedsHandling(HttpResponseStatusCodeChecker.of(this.httpRequest)::checkOutHandlersFor);
             return response;
         } catch (RetryNeededOnHttpStatusCodeException | RetryNeededOnExceptionThrownException exception) {
-            HttpRequestSendingManagerLogger.logRetryMessage(exception.getMessage());
             return this.run();
         }
     }
