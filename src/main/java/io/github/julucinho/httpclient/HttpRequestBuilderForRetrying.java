@@ -8,4 +8,9 @@ public interface HttpRequestBuilderForRetrying {
     HttpRequestBuilder andAddRetriersByHttpStatusCodeFactory(RetriersByStatusCodeFactory retriersByStatusCodeFactory);
     HttpRequestBuilder andAddRetriersByExceptionTypeFactory(RetriersByExceptionTypeFactory retriersByExceptionTypeFactory);
     HttpRequestBuilder andAddRetrierByExceptionType(Class<? extends Exception> exceptionType, RetrierModel retrierModel);
+
 }
+
+
+
+

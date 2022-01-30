@@ -6,7 +6,7 @@
 
     <groupId>io.github.julucinho</groupId>
     <artifactId>httpClient</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.0</version>
 
     <name>httpClient</name>
     <url>https://github.com/julucinho/http-client</url>

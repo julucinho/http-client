@@ -1,7 +1,5 @@
-package io.github.julucinho.httpclient.impl;
+package io.github.julucinho.httpclient;
 
-
-import io.github.julucinho.httpclient.HttpResponseHandler;
 import io.github.julucinho.httpclient.commons.HandlersFactory;
 
 import java.util.Map;
