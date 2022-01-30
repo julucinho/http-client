@@ -15,9 +15,9 @@ public class HttpRequestGetMethod implements HttpRequestMethod {
             var unwrappedResponse = FinalHttpRequestExecutor.execute(finalRequest);
             return new HttpResponseImpl(httpRequestModel, unwrappedResponse);
         }
-        catch (Exception e) {
-            ExceptionThrownByHttpRequestChecker.of((AbstractHttpRequestModel) httpRequestModel).checkOn(e);
-            throw e;
+        catch (Exception exception) {
+            ExceptionThrownByHttpRequestChecker.of((AbstractHttpRequestModel) httpRequestModel).checkOn(exception);
+            throw exception;
         }
     }
 }

@@ -1,6 +1,5 @@
 package io.github.julucinho.httpclient.impl;
 
-import io.github.julucinho.httpclient.HttpResponse;
 import io.github.julucinho.httpclient.impl.exceptions.JsonProcessingRuntimeException;
 import io.github.julucinho.httpclient.impl.exceptions.RetryNeededOnExceptionThrownException;
 import org.junit.jupiter.api.Assertions;
@@ -20,12 +19,12 @@ class ExceptionThrownByHttpRequestCheckerTest {
     @BeforeEach
     void setUp(){
         this.abstractHttpRequestModel = HttpRequestModelImpl.of("http://localhost:8080/tutstuts", new HttpRequestGetMethod());
-        this.abstractHttpRequestModel.responseHandlersByExceptionType.put(RuntimeException.class, this::doNothing);
-        this.abstractHttpRequestModel.responseHandlersByExceptionType.put(Exception.class, this::doNothing);
-        this.abstractHttpRequestModel.responseHandlersByExceptionType.put(ClassNotFoundException.class, this::doNothing);
+        this.abstractHttpRequestModel.exceptionHandlersByExceptionType.put(RuntimeException.class, this::doNothing);
+        this.abstractHttpRequestModel.exceptionHandlersByExceptionType.put(Exception.class, this::doNothing);
+        this.abstractHttpRequestModel.exceptionHandlersByExceptionType.put(ClassNotFoundException.class, this::doNothing);
     }
 
-    private void doNothing(HttpResponse httpResponse) { }
+    private void doNothing(Exception exception) { }
 
     @Test
     @DisplayName("Should not return null reference when static constructor invoked")

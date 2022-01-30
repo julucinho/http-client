@@ -211,11 +211,11 @@ class HttpRequestBuilderImplTest {
     void shouldAddResponseHandlerByExceptionTypeCorrectly(){
         var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
         var builder = HttpRequestBuilderImpl.of(request);
-        var handler = (HttpResponseHandler) response -> System.out.println("hello, exception");
+        var handler = (ExceptionHandler) exception -> System.out.println("hello, exception");
         var exceptionToHandle = RuntimeException.class;
-        builder.andAddResponseHandlerByExceptionType(exceptionToHandle, handler);
-        Assertions.assertFalse(request.responseHandlersByExceptionType.isEmpty());
-        Assertions.assertEquals(handler, request.responseHandlersByExceptionType.get(exceptionToHandle));
+        builder.andAddExceptionHandlerByExceptionType(exceptionToHandle, handler);
+        Assertions.assertFalse(request.exceptionHandlersByExceptionType.isEmpty());
+        Assertions.assertEquals(handler, request.exceptionHandlersByExceptionType.get(exceptionToHandle));
     }
 
     @Test
@@ -223,9 +223,9 @@ class HttpRequestBuilderImplTest {
     void shouldReturnBuilderInstanceWhenFinishingMethodOfAddingResponseHandlerByExceptionType(){
         var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
         var builder = HttpRequestBuilderImpl.of(request);
-        var handler = (HttpResponseHandler) response -> System.out.println("hello, exception");
+        var handler = (ExceptionHandler) exception -> System.out.println("hello, exception");
         var exceptionToHandle = RuntimeException.class;
-        var returnedBuilder = builder.andAddResponseHandlerByExceptionType(exceptionToHandle, handler);
+        var returnedBuilder = builder.andAddExceptionHandlerByExceptionType(exceptionToHandle, handler);
         Assertions.assertNotNull(returnedBuilder);
         Assertions.assertEquals(builder, returnedBuilder);
     }
@@ -278,7 +278,7 @@ class HttpRequestBuilderImplTest {
         Assertions.assertEquals(builder, returnedBuilder);
     }
 
-    private static class HttpResponseHandlersByExceptionTypeFactoryForTestingMatters implements HttpResponseHandlersByExceptionTypeFactory {
+    private static class HttpExceptionHandlersByExceptionTypeFactoryForTestingMatters implements HttpExceptionHandlersByExceptionTypeFactory {
 
         static final Class<? extends Exception> KEY_1 = RuntimeException.class;
         static final Class<? extends Exception> KEY_2 = InterruptedException.class;
@@ -286,11 +286,11 @@ class HttpRequestBuilderImplTest {
 
 
         @Override
-        public Map<Class<? extends Exception>, HttpResponseHandler> makeHandlers() {
-            var handlers = new HashMap<Class<? extends Exception>, HttpResponseHandler>();
-            handlers.put(KEY_1, response -> System.out.println("Hello, RuntimeException"));
-            handlers.put(KEY_2, response -> System.out.println("Hello, InterruptedException"));
-            handlers.put(KEY_3, response -> System.out.println("Hello, Exception"));
+        public Map<Class<? extends Exception>, ExceptionHandler> makeHandlers() {
+            var handlers = new HashMap<Class<? extends Exception>, ExceptionHandler>();
+            handlers.put(KEY_1, exception -> System.out.println("Hello, RuntimeException"));
+            handlers.put(KEY_2, exception -> System.out.println("Hello, InterruptedException"));
+            handlers.put(KEY_3, exception -> System.out.println("Hello, Exception"));
             return handlers;
         }
     }
@@ -300,11 +300,11 @@ class HttpRequestBuilderImplTest {
     void shouldAddHttpResponseHandlersByExceptionTypeFactoryCorrectly(){
         var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
         var builder = HttpRequestBuilderImpl.of(request);
-        builder.andAddResponseHandlersByExceptionTypeFactory(new HttpResponseHandlersByExceptionTypeFactoryForTestingMatters());
-        Arrays.asList(HttpResponseHandlersByExceptionTypeFactoryForTestingMatters.KEY_1,
-                HttpResponseHandlersByExceptionTypeFactoryForTestingMatters.KEY_2,
-                HttpResponseHandlersByExceptionTypeFactoryForTestingMatters.KEY_3)
-                .forEach(key -> Assertions.assertNotNull(request.responseHandlersByExceptionType.get(key)));
+        builder.andAddExceptionHandlersByExceptionTypeFactory(new HttpExceptionHandlersByExceptionTypeFactoryForTestingMatters());
+        Arrays.asList(HttpExceptionHandlersByExceptionTypeFactoryForTestingMatters.KEY_1,
+                HttpExceptionHandlersByExceptionTypeFactoryForTestingMatters.KEY_2,
+                HttpExceptionHandlersByExceptionTypeFactoryForTestingMatters.KEY_3)
+                .forEach(key -> Assertions.assertNotNull(request.exceptionHandlersByExceptionType.get(key)));
     }
 
     @Test
@@ -312,7 +312,7 @@ class HttpRequestBuilderImplTest {
     void shouldReturnBuilderInstanceWhenFinishingMethodOfAddingHttpResponseHandlersByExceptionTypeFactory(){
         var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
         var builder = HttpRequestBuilderImpl.of(request);
-        var returnedBuilder = builder.andAddResponseHandlersByExceptionTypeFactory(new HttpResponseHandlersByExceptionTypeFactoryForTestingMatters());
+        var returnedBuilder = builder.andAddExceptionHandlersByExceptionTypeFactory(new HttpExceptionHandlersByExceptionTypeFactoryForTestingMatters());
         Assertions.assertNotNull(returnedBuilder);
         Assertions.assertEquals(builder, returnedBuilder);
     }

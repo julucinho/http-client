@@ -62,14 +62,14 @@ public class HttpRequestBuilderImpl extends AbstractHttpRequestBuilder {
     }
 
     @Override
-    public HttpRequestBuilder andAddResponseHandlerByExceptionType(Class<? extends Exception> exceptionType, HttpResponseHandler httpResponseHandler) {
-        this.httpRequest.responseHandlersByExceptionType.put(exceptionType, httpResponseHandler);
+    public HttpRequestBuilder andAddExceptionHandlerByExceptionType(Class<? extends Exception> exceptionType, ExceptionHandler exceptionHandler) {
+        this.httpRequest.exceptionHandlersByExceptionType.put(exceptionType, exceptionHandler);
         return this;
     }
 
     @Override
-    public HttpRequestBuilder andAddResponseHandlersByExceptionTypeFactory(HttpResponseHandlersByExceptionTypeFactory httpResponseHandlersByExceptionTypeFactory) {
-        httpResponseHandlersByExceptionTypeFactory.makeHandlers().forEach(this.httpRequest.responseHandlersByExceptionType::put);
+    public HttpRequestBuilder andAddExceptionHandlersByExceptionTypeFactory(HttpExceptionHandlersByExceptionTypeFactory httpExceptionHandlersByExceptionTypeFactory) {
+        httpExceptionHandlersByExceptionTypeFactory.makeHandlers().forEach(this.httpRequest.exceptionHandlersByExceptionType::put);
         return this;
     }
 
