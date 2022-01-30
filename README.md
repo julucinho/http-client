@@ -1,2 +1,4 @@
-# http-client (In development)
-Lib for making implementation of http requests easy. Soon a decent readme documentation will be added.
+# http-client (1.0.0)
+![how to use](https://user-images.githubusercontent.com/60593328/151687572-e25ce9b2-b459-49c1-b0e7-7e926c60f0d1.png)
+
+
