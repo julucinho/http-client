@@ -16,9 +16,11 @@ public class ExceptionThrownByHttpRequestChecker {
     }
 
     public void checkOn(Exception e) {
-        var handlerByThisException = ofNullable(httpRequestModel.exceptionHandlersByExceptionType.get(e.getClass()));
-        if (handlerByThisException.isPresent()) {
+        var retryCounterByExceptionType = ofNullable(httpRequestModel.retryCountersByExceptionType.get(e.getClass()));
+        if (retryCounterByExceptionType.isPresent()) {
             throw new RetryNeededOnExceptionThrownException(e.getClass());
         }
+        var handlerByThisException = ofNullable(httpRequestModel.exceptionHandlersByExceptionType.get(e.getClass()));
+        handlerByThisException.ifPresent(handler -> handler.handle(e));
     }
 }
