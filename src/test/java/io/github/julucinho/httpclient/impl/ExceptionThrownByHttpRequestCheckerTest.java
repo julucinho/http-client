@@ -1,5 +1,6 @@
 package io.github.julucinho.httpclient.impl;
 
+import io.github.julucinho.httpclient.RetrierModel;
 import io.github.julucinho.httpclient.impl.exceptions.JsonProcessingRuntimeException;
 import io.github.julucinho.httpclient.impl.exceptions.RetryNeededOnExceptionThrownException;
 import org.junit.jupiter.api.Assertions;
@@ -19,9 +20,10 @@ class ExceptionThrownByHttpRequestCheckerTest {
     @BeforeEach
     void setUp(){
         this.abstractHttpRequestModel = HttpRequestModelImpl.of("http://localhost:8080/tutstuts", new HttpRequestGetMethod());
-        this.abstractHttpRequestModel.exceptionHandlersByExceptionType.put(RuntimeException.class, this::doNothing);
+        this.abstractHttpRequestModel.retryCountersByExceptionType.put(RuntimeException.class, RetryCounterImpl.of(RetrierModel.withLimitOf(4)));
         this.abstractHttpRequestModel.exceptionHandlersByExceptionType.put(Exception.class, this::doNothing);
-        this.abstractHttpRequestModel.exceptionHandlersByExceptionType.put(ClassNotFoundException.class, this::doNothing);
+        this.abstractHttpRequestModel.retryCountersByExceptionType.put(Exception.class, RetryCounterImpl.of(RetrierModel.withLimitOf(4)));
+        this.abstractHttpRequestModel.retryCountersByExceptionType.put(ClassNotFoundException.class, RetryCounterImpl.of(RetrierModel.withLimitOf(4)));
     }
 
     private void doNothing(Exception exception) { }
