@@ -17,7 +17,7 @@ public class ExceptionThrownByHttpRequestChecker {
 
     public void checkOn(Exception e) {
         var retryCounterByExceptionType = ofNullable(httpRequestModel.retryCountersByExceptionType.get(e.getClass()));
-        if (retryCounterByExceptionType.isPresent()) {
+        if (retryCounterByExceptionType.isPresent() && retryCounterByExceptionType.get().thereIsRetryAvailable()) {
             retryCounterByExceptionType.get().decreaseRetriesAvailable();
             throw new RetryNeededOnExceptionThrownException(e.getClass());
         }
