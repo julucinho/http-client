@@ -356,4 +356,27 @@ class HttpRequestBuilderImplTest {
         Assertions.assertEquals(builder, returnedBuilder);
     }
 
+    @Test
+    @DisplayName("Should set proxy address to the request model")
+    void shouldSetProxyAddressToTheRequestModel(){
+        var host = "tururu.com";
+        var port = 8080;
+        var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
+        var builder = HttpRequestBuilderImpl.of(request);
+        builder.andAddProxyAddress(host, port);
+        Assertions.assertNotNull(request.proxyAddress);
+        Assertions.assertNotNull(request.proxyAddress.getHost());
+        Assertions.assertNotNull(request.proxyAddress.getPort());
+        Assertions.assertEquals(host, request.proxyAddress.getHost());
+        Assertions.assertEquals(port, request.proxyAddress.getPort());
+    }
+
+    @Test
+    @DisplayName("Should return the builder instance after 'andAddProxyAddress' has been called")
+    void shouldReturnTheBuilderInstanceAfterAndAddProxyAddressHasBeenCalled(){
+        var request = HttpRequestModelImpl.of("http://localhost:8080/users", new HttpRequestGetMethod());
+        var builder = HttpRequestBuilderImpl.of(request).andAddProxyAddress("tururu.com", 8080);
+        Assertions.assertNotNull(builder);
+    }
+
 }

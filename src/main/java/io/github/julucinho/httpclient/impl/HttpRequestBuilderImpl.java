@@ -39,6 +39,12 @@ public class HttpRequestBuilderImpl extends AbstractHttpRequestBuilder {
     }
 
     @Override
+    public HttpRequestBuilder andAddProxyAddress(String host, Integer port) {
+        this.httpRequest.proxyAddress = ProxyAddressModel.builder().host(host).port(port).build();
+        return this;
+    }
+
+    @Override
     public HttpRequestModel andFinishBuildingModel() {
         return this.httpRequest;
     }

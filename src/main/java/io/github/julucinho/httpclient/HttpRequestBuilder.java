@@ -6,6 +6,7 @@ public interface HttpRequestBuilder extends HttpRequestBuilderForHandlers, HttpR
     HttpRequestBuilder andAddHeadersFactory(HttpRequestHeaderFactory httpRequestHeaderFactory);
     HttpRequestBuilder andAddPathVariableOf(String pathVariableName, String pathVariableValue);
     HttpRequestBuilder andAddQueryParameterOf(String queryParameterName, String queryParameterValue);
+    HttpRequestBuilder andAddProxyAddress(String host, Integer port);
     HttpRequestModel andFinishBuildingModel();
 
 }
